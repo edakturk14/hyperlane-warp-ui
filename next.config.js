@@ -10,9 +10,11 @@ const isDev = process.env.NODE_ENV !== 'production'
 
 // Sometimes useful to disable this during development
 const ENABLE_CSP_HEADER = true;
-const FRAME_SRC_HOSTS = ['https://*.walletconnect.com', 'https://*.walletconnect.org','https://*.solflare.com'];
+const FRAME_SRC_HOSTS = ['https://*.walletconnect.com', 'https://*.walletconnect.org', 'https://*.solflare.com'];
 const STYLE_SRC_HOSTS = []
-const IMG_SRC_HOSTS = ['https://*.walletconnect.com', 'https://*.githubusercontent.com'];
+
+const IMG_SRC_HOSTS = ['https://*.walletconnect.com', 'https://*.githubusercontent.com', 'https://raw.githubusercontent.com'];
+
 const cspHeader = `
   default-src 'self';
   script-src 'self'${isDev ? " 'unsafe-eval'" : ''};
@@ -49,11 +51,11 @@ const securityHeaders = [
   // Note, causes a problem for firefox: https://github.com/MetaMask/metamask-extension/issues/3133
   ...(ENABLE_CSP_HEADER
     ? [
-        {
-          key: 'Content-Security-Policy',
-          value: cspHeader,
-        },
-      ]
+      {
+        key: 'Content-Security-Policy',
+        value: cspHeader,
+      },
+    ]
     : [])
 ]
 
@@ -85,6 +87,13 @@ const nextConfig = {
   sentry: {
     hideSourceMaps: true,
     tunnelRoute: "/monitoring-tunnel",
+  },
+  images: {
+    domains: [
+      'raw.githubusercontent.com',
+      'githubusercontent.com',
+      'walletconnect.com',
+    ],
   },
 }
 
